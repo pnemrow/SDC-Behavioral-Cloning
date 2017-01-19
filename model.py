@@ -24,7 +24,6 @@ for i, image_path in enumerate(csv_data['Center_Images']):
 X_train, y_train = shuffle(X_train, y_train)
 
 # train
-
 model = Sequential()
 model.add(Convolution2D(16, 8, 8, subsample=(4, 4), border_mode="same", input_shape=(40, 40, 1)))
 model.add(BatchNormalization(mode=1))
