@@ -8,18 +8,26 @@ from keras.layers.normalization import BatchNormalization
 from keras.optimizers import SGD
 from sklearn.utils import shuffle
 import preprocessing
-
+import matplotlib.pyplot as plt
 
 csv_data = csv('driving_log.csv')
 csv_data.columns = ['Center_Images', 'Left_Images', 'Right_Images', 'Steering_Angle', 'Throttle', 'Break', 'Speed']
 
 X_train = np.zeros(shape=(csv_data.shape[0], 40, 40, 1))
+X_flipped = np.zeros(shape=X_train.shape)
 y_train = csv_data['Steering_Angle']
+y_flipped = y_train * -1.0
+
 
 for i, image_path in enumerate(csv_data['Center_Images']):
     image = imread(image_path, mode='RGB')
     image = preprocessing.preprocess(image)
+    flipped_image = preprocessing.flip_image(image)
     X_train[i] = image
+    X_flipped[i] = flipped_image
+
+X_train = np.append(X_train, X_flipped, axis=0)
+y_train = np.append(y_train, y_flipped)
 
 X_train, y_train = shuffle(X_train, y_train)
 

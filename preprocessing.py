@@ -20,4 +20,6 @@ def grayscale(image):
 def normalize(image):
     image = np.interp(image, [0, 255], [-0.5, 0.5])
     return np.expand_dims(image, 2)
-  
+
+def flip_image(image):
+    return np.fliplr(image)
