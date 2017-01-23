@@ -3,15 +3,22 @@ import cv2
 from scipy.misc import imresize
 
 def preprocess(image):
+    image = crop(image)
     image = resize(image)
     image = grayscale(image)
     image = normalize(image)
     return image
 
 def resize(image):
-    height = 40
-    weight = 40
-    return imresize(image, (height, weight))
+    height = image.shape[0]
+    width = image.shape[1]
+    return imresize(image, (int(height/2), int(width/2)))
+
+def crop(image):
+    height = image.shape[0]
+    width = image.shape[1]
+    top_crop = int(height * .36)
+    return image[top_crop:height, 0:width]
 
 def grayscale(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
