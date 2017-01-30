@@ -35,15 +35,15 @@ In my final steps of preparing the data to train my model, I shuffle the data an
 
 ##Model
 
-For the model architecture I chose four convolutional layers to extract features from the camera images, followed by four fully-connected layers to . Each layer besides the last is activated by a ReLU, while the last layer is activated by tanh to keep the prediction angles between -1 and 1. I introduced two dropout layers - one after the first two convolutional layers and one after the second two - to reduce the possibility of overfitting.
+In search for a good starting point model, I researched two different models that deal essentially the same challenge of training a car to steer within a lane. These two models are George Hotz's Comma.ai model and the Nvidia model explained in the "End to End Learning for Self Driving Cars" document that Udacity linked me to.
 
-I originally started out with a more complex model with eight convolutional layers, but I found that this took much longer to train and didn't produce much better results, so I pruned down the model for simplicity and speed, while still keeping accuracy high.
+The Comma.ai approach is structured with 1 normalization layer, 3 convolutional layers, and 2 fully connected layers. Of note, it makes use of ELU (Exponential Linear Units) activations after each layer, which brings the mean activation of each nueron closer to zero than a regular ReLU. It also uses a surprisingly low dropout value of .2 on its first fully connected layer, and a dropout of .5 on the second layer, which significantly lowers the chances of overfitting. The Comma.ai approach also uses over 200 Epochs on this relatively simple architecture.
 
-I optimized the model with an Adam optimizer over MSE loss.
+The Nvidia approach uses 1 normalization layer, 4 convolutional layers and 3 fully connected layers. Of note, Nvidia used 5 x 5 kernal sizes with a stride of 2 x 2 for each of the first 3 convolutional layers, and decreased the kernal size to 3 x 3 with no stride on the last convolutional layer. This model only needs a few epochs to train the network.
 
-Hyperparameters
+After trying both models with the preprocessed data, I found that the Nvidia model gave me better initial results while taking less time to train. However, I liked features of the Comma.ai approach, so I incorporated a few features into the Comma.ai model into the Nvidia model that I used as a base. My model, like the Nvidia model, has 4 convolutional layers and 3 fully connected layers, with the same sized kernels and strides as the Nvidia model specified. However, I incorporated Comma.ai's use of ELU activation layers between each of the convolutional layers as well as the fully connected layers. I included dropout layers between each of the fully connected layers, with a .2 dropout value after the first fully connected layer and .5 dropout values after the following two fully connected layers.
 
-I chose a learning rate of 0.0001 rather than the default adam optimizer rate of 0.001 because I found that the higher rate plateaued at a higher loss and produced worse qualitative driving results. I trained for 10 epochs because performance increase started diminishing when training for longer.
+With additional research, I was able to find that Keras had a built in BatchNormalization layer that I could include, which normalizes and regularizes the inputs to each layer. This decreases internal covariate shift and essentially allows us to use much higher learning rates and be less careful about initialization. For this reason, I used BatchNormalization before each ELU activation in my model.
 
 ##Results
 
