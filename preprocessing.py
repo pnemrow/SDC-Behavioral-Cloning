@@ -43,7 +43,7 @@ def filter_shuffle_split(X_train, y_train):
     return train_test_split(X_train, y_train, test_size=0.2, random_state=21)
 
 def filter_zeros(X_train, y_train):
-    mask = (y_train == 0.0) & (np.random.rand(y_train.shape[0]) > 0.30)
+    mask = (y_train == 0.0) & (np.random.rand(y_train.shape[0]) > 0.25)
     y_train = y_train[np.logical_not(mask)]
     X_train  = X_train[np.logical_not(mask)]
     return X_train, y_train
