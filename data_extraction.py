@@ -28,26 +28,10 @@ def csv_to_X_y(csv_data):
     return X_train, y_train
 
 def get_row_values(csv_data, row):
-    if csv_data['Steering_Angle'][row] < -.3:
-        plt.imshow(preprocess(imread(csv_data['Center_Images'][row], mode='RGB')).squeeze())
-        plt.show()
-        plt.imshow(preprocess(imread(csv_data['Left_Images'][row], mode='RGB')).squeeze())
-        plt.show()
-        plt.imshow(preprocess(imread(csv_data['Right_Images'][row], mode='RGB')).squeeze())
-        plt.show()
-        plt.imshow(flip_image(preprocess(imread(csv_data['Center_Images'][row], mode='RGB'))).squeeze())
-        plt.show()
-        plt.imshow(flip_image(preprocess(imread(csv_data['Left_Images'][row], mode='RGB'))).squeeze())
-        plt.show()
-        plt.imshow(flip_image(preprocess(imread(csv_data['Right_Images'][row], mode='RGB'))).squeeze())
-        plt.show()
-        print(csv_data['Steering_Angle'][row])
-        print(csv_data['Steering_Angle'][row] + 0.20)
-        print(csv_data['Steering_Angle'][row] - 0.20)
     values = {
         'center_steer': csv_data['Steering_Angle'][row],
-        'left_steer': csv_data['Steering_Angle'][row] + 0.20,
-        'right_steer': csv_data['Steering_Angle'][row] - 0.20,
+        'left_steer': csv_data['Steering_Angle'][row] + 0.24,
+        'right_steer': csv_data['Steering_Angle'][row] - 0.24,
         'center_image': preprocess(imread(csv_data['Center_Images'][row], mode='RGB')),
         'left_image': preprocess(imread(csv_data['Left_Images'][row], mode='RGB')),
         'right_image': preprocess(imread(csv_data['Right_Images'][row], mode='RGB'))

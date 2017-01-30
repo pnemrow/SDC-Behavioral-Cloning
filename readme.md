@@ -31,17 +31,6 @@ This created another bias in the trained model, where the model was rewarded for
 
 To further help the model recover the driving path towards the middle as it nears the edge of the road, I intentionally biased the steering angles associated with the images taken from the left and right perspectives of the car. I added an angle of .15 degrees to the steering angle of the left image and subtracted .15 degrees from the steering angle of the right image. This forced a biase toward the center of the road, which allows this car to correct itself as it approaches one side or another.
 
-<div style="float: left; margin: 0px 15px" width="280">Left Image - Steer Angle -0.173</div>
-<div style="float: left; margin: 0px 15px" width="280">Center Image - Steer Angle -0.373</div>
-<div style="float: left; margin: 0px 15px" width="280">Right Image - Steer Angle -0.573071</div>
-<img src="assets/left_image.png" width="280"/><img src="assets/center_image.png" width="280"/><img src="assets/right_image.png" width="280"/>
-<img src="assets/left_image_flipped.png" width="280"/><img src="assets/center_image_flipped.png" width="280"/><img src="assets/right_image_flipped.png" width="280"/> 
-
-
--0.373071
--0.173071
--0.573071
-
 In my final steps of preparing the data to train my model, I shuffle the data and split it into 80% training and 20% validation data.
 
 ##Model
