@@ -12,8 +12,7 @@ By doing this we end up with an image transformation that looks like the followi
 
 *image_caption*
 
-![Alt text](assets/raw_sample.png?raw=true "raw sample") ![Alt text](assets/preprocessed_sample.png?raw=true "preprocessed sample")
-
+<img src="assets/raw_sample.png" width="425"/> <img src="assets/preprocessed_sample.png" width="425"/> 
 
 The dataset as a whole contained patterns that would train biases into the model that would cause a car to constantly drive off the left side of the road. Since the race track was circular and a majority of the turns were left, the model learned a bias towards turning left, since a left turn angle would usually result in a more accurate prediction than a right or straight angle. In order to remedy this, I made a copy and flipped the copy of each image in my dataset, and added a flipped steering angle to correspond with the flipped image. This balanced the dataset to have the exact same number of right turn images as left turn images. 
 
