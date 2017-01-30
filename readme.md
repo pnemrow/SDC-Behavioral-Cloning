@@ -45,6 +45,10 @@ After trying both models with the preprocessed data, I found that the Nvidia mod
 
 With additional research, I was able to find that Keras had a built in BatchNormalization layer that I could include, which normalizes and regularizes the inputs to each layer. This decreases internal covariate shift and essentially allows us to use much higher learning rates and be less careful about initialization. For this reason, I used BatchNormalization before each ELU activation in my model.
 
+*image_caption*
+
+![Alt text](assets/model_architecture.png?raw=true "model architecture")
+
 ##Results
 
 I received a final training loss of 0.0514 and a validation loss of 0.0543. Qualitatively, the model drives the car well on both tracks (best performance at smallest resolution and lowest graphics), without ever crashing or venturing into dangerous areas.
