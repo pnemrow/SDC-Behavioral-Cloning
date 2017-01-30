@@ -47,7 +47,7 @@ With additional research, I was able to find that Keras had a built in BatchNorm
 
 *image_caption*
 
-![Alt text](assets/model_architecture.png?raw=true "model architecture")
+![Alt text](assets/model_architecture.jpg?raw=true "model architecture")
 
 ##Results
 
