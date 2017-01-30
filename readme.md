@@ -9,9 +9,8 @@ Initially, I collected over 50,000 images using the simulator's recording featur
 To prepare the Udacity dataset for processing and training my model, I resized and cropped the images, converted the color channels from RGB to HSV and only kept the S (Saturation) channel, and normalize the pixel values between -.5 and .5. I resized the image to decrease the amount of data that the nueral network would need to process. I cropped the image to reduce irrelavent noise (trees, mountains, clouds, etc.) from the top third of the and focus my model on just the road, with the added benefit of further reducing the amount of data to process. I change the RGB channels to HSV, and keep only the S channel (saturation) to essentially remove the effect of brightness (shadows, road color, etc) in the image. Decreasing 3 channels to 1 for each pixels also cuts down the amount of data to be processed by two-thirds. Finally, I normalize the pixel values between values of -.5 and .5 to remove extremes in the data, which can cause accuracy issues in calculations. 
 
 By doing this we end up with an image transformation that looks like the following:
-[[./CarND-Behavioral-Cloning/assets/raw_sample.png]]
-[[./CarND-Behavioral-Cloning/assets/preprocessed_sample.png]]
-
+![Alt text](assets/raw_sample.png?raw=true "raw sample")
+![Alt text](assets/preprocessed_sample.png?raw=true "preprocessed sample")
 
 The dataset as a whole contained patterns that would train biases into the model that would cause a car to constantly drive off the left side of the road. Since the race track was circular and a majority of the turns were left, the model learned a bias towards turning left, since a left turn angle would usually result in a more accurate prediction than a right or straight angle. In order to remedy this, I made a copy and flipped the copy of each image in my dataset, and added a flipped steering angle to correspond with the flipped image. This balanced the dataset to have the exact same number of right turn images as left turn images. 
 
