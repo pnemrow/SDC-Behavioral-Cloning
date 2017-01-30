@@ -16,6 +16,8 @@ The dataset as a whole contained patterns that would train biases into the model
 
 When the car approached the side of the track, I noticed that it slowly tried to correct itself, but much too slowly. Looking through the distribution of steering angles in the data, I found disproportionate amount of zero value steering angles in the dataset. See distribution below.
 
+![Alt text](assets/Steering_Distribution.png?raw=true "preprocessed sample")
+
 This created another bias in the trained model, where the model was rewarded for steering angles closer to zero value. So although, the model recognizes that it needs to make a sharp left turn, it uses lower values, since zero values generally gave higher prediction accuracies. To fix this, I removed 70% of the zero values so that the distribution looked like this:
 
 
