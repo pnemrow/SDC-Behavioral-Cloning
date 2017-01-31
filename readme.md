@@ -1,6 +1,4 @@
-CarND-Behavioral-Cloning
-
-My behavioral cloning project from Udactiy's Self-Driving Car Nanodegree.
+##CarND-Behavioral-Cloning
 
 ## Data
 
@@ -27,6 +25,8 @@ This created another bias in the trained model, where the model was rewarded for
 
 *image_caption*
 
+
+
 ![Alt text](assets/Distribution_After.png?raw=true "preprocessed sample")
 
 To further help the model recover the driving path towards the middle as it nears the edge of the road, I intentionally biased the steering angles associated with the images taken from the left and right perspectives of the car. I added an angle of .15 degrees to the steering angle of the left image and subtracted .15 degrees from the steering angle of the right image. This forced a biase toward the center of the road, which allows this car to correct itself as it approaches one side or another.
@@ -43,25 +43,26 @@ The Nvidia approach uses 1 normalization layer, 4 convolutional layers and 3 ful
 
 After trying both models with the preprocessed data, I found that the Nvidia model gave me better initial results while taking less time to train. However, I liked features of the Comma.ai approach, so I incorporated a few features into the Comma.ai model into the Nvidia model that I used as a base. My model, like the Nvidia model, has 4 convolutional layers and 3 fully connected layers, with the same sized kernels and strides as the Nvidia model specified. However, I incorporated Comma.ai's use of ELU activation layers between each of the convolutional layers as well as the fully connected layers. I included dropout layers between each of the fully connected layers, with a .2 dropout value after the first fully connected layer and .5 dropout values after the following two fully connected layers.
 
-With additional research, I was able to find that Keras had a built in BatchNormalization layer that I could include, which normalizes and regularizes the inputs to each layer. This decreases internal covariate shift and essentially allows us to use much higher learning rates and be less careful about initialization. For this reason, I used BatchNormalization before each ELU activation in my model.
+With additional research, I was able to find that Keras had a built in BatchNormalization layer that I could include, which normalizes and regularizes the inputs to each layer. This decreases internal covariate shift and essentially allows us to use much higher learning rates and be less careful about initialization. For this reason, I used BatchNormalization before each ELU activation in my model. Below you can see a visual for the architecture of my model, along with each layer's output shape.
 
-*image_caption*
+*Model Architecture*
 
-![Alt text](assets/model_architecture.jpg?raw=true "model architecture")
+![Alt text](assets/model_architecture.png?raw=true "model architecture")
 
 ##Results
+I found that that the amount of epochs for optimal qualitative accuracy was 4-5 epochs. Using five epochs, my model was able to achieve a .0297 accuracy loss, as seen below:
 
-Train on 33329 samples, validate on 8333 samples
+```
 Epoch 1/5
-33329/33329 [==============================] - 263s - loss: 0.1966 - acc: 0.0441 - val_loss: 0.0512 - val_acc: 0.0524
+  loss: 0.1966
 Epoch 2/5
-33329/33329 [==============================] - 261s - loss: 0.0660 - acc: 0.0505 - val_loss: 0.0353 - val_acc: 0.0522
+  loss: 0.0660
 Epoch 3/5
-33329/33329 [==============================] - 261s - loss: 0.0521 - acc: 0.0514 - val_loss: 0.0360 - val_acc: 0.0523
+  loss: 0.0521
 Epoch 4/5
-33329/33329 [==============================] - 261s - loss: 0.0405 - acc: 0.0516 - val_loss: 0.0253 - val_acc: 0.0524
+  loss: 0.0405
 Epoch 5/5
-33329/33329 [==============================] - 261s - loss: 0.0297 - acc: 0.0518 - val_loss: 0.0226 - val_acc: 0.0524
+  loss: 0.0297
+```
 
-
-I received a final training loss of 0.0514 and a validation loss of 0.0543. Qualitatively, the model drives the car well on both tracks (best performance at smallest resolution and lowest graphics), without ever crashing or venturing into dangerous areas.
+Qualitatively, my model's performance in the simulation was able to complete both courses without treading into any dangerours zones. Given a training data set based on only the first simulation track, I felt it was key to achieve safe driving on both tracks to prove that the model is not just overfitting one track. However, since the second track is much more curvy than the first track, I had to bias the model to make turns by adjusting the amount of zero angles filtered and recovery angles, and this causes the car to weave back and forth on straightaways in track 1. I tried dozens of combinations of biases and found that there is a trade off between smooth driving on straightaways and the ability to stay on the road with sharp turns. Unless I use more training data, I had to decide between 'drunk driving' on straightaways with safe turns, or smooth straight driving and perilous turns. I decided to go with the latter, and searched for a balance that would minimize the drunk driving effect on straightaways but also navigate both tracks safely. Obviously I could have added more data to train with, but I felt that using less data was more of a challenge in this project, which I wanted to challenge myself with.
