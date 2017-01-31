@@ -30,8 +30,8 @@ def csv_to_X_y(csv_data):
 def get_row_values(csv_data, row):
     values = {
         'center_steer': csv_data['Steering_Angle'][row],
-        'left_steer': csv_data['Steering_Angle'][row] + 0.17,
-        'right_steer': csv_data['Steering_Angle'][row] - 0.17,
+        'left_steer': csv_data['Steering_Angle'][row] + 0.20,
+        'right_steer': csv_data['Steering_Angle'][row] - 0.20,
         'center_image': preprocess(imread(csv_data['Center_Images'][row], mode='RGB')),
         'left_image': preprocess(imread(csv_data['Left_Images'][row], mode='RGB')),
         'right_image': preprocess(imread(csv_data['Right_Images'][row], mode='RGB'))

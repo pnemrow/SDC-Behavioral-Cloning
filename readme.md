@@ -23,7 +23,7 @@ When the car approached the side of the track, I noticed that it slowly tried to
 ![Alt text](assets/Distribution_Before.png?raw=true "preprocessed sample")
 
 
-This created another bias in the trained model, where the model was rewarded for steering angles closer to zero value. So although, the model recognizes that it needs to make a sharp left turn, it uses lower values, since zero values generally gave higher prediction accuracies. To fix this, I removed 70% of the zero values so that the distribution looked like this:
+This created another bias in the trained model, where the model was rewarded for steering angles closer to zero value. So although, the model recognizes that it needs to make a sharp left turn, it uses lower values, since zero values generally gave higher prediction accuracies. To fix this, I removed 75% of the zero values so that the distribution looked like this:
 
 *image_caption*
 
@@ -50,5 +50,18 @@ With additional research, I was able to find that Keras had a built in BatchNorm
 ![Alt text](assets/model_architecture.jpg?raw=true "model architecture")
 
 ##Results
+
+Train on 33329 samples, validate on 8333 samples
+Epoch 1/5
+33329/33329 [==============================] - 263s - loss: 0.1966 - acc: 0.0441 - val_loss: 0.0512 - val_acc: 0.0524
+Epoch 2/5
+33329/33329 [==============================] - 261s - loss: 0.0660 - acc: 0.0505 - val_loss: 0.0353 - val_acc: 0.0522
+Epoch 3/5
+33329/33329 [==============================] - 261s - loss: 0.0521 - acc: 0.0514 - val_loss: 0.0360 - val_acc: 0.0523
+Epoch 4/5
+33329/33329 [==============================] - 261s - loss: 0.0405 - acc: 0.0516 - val_loss: 0.0253 - val_acc: 0.0524
+Epoch 5/5
+33329/33329 [==============================] - 261s - loss: 0.0297 - acc: 0.0518 - val_loss: 0.0226 - val_acc: 0.0524
+
 
 I received a final training loss of 0.0514 and a validation loss of 0.0543. Qualitatively, the model drives the car well on both tracks (best performance at smallest resolution and lowest graphics), without ever crashing or venturing into dangerous areas.
