@@ -1,14 +1,14 @@
-##CarND-Behavioral-Cloning
+#CarND Behavioral Cloning Project
 
 ## Data
 
 Initially, I collected over 50,000 images using the simulator's recording feature. I drove 4 times around the center of the first track, and an additional two times creating "recovery" images to help the car recover from the side of the road. I also did this with the second track. After recording all of this, I looked through the csv that had recorded my steering angles, and found that the angles either had a zero value or a sharp angle. In my inital model training, the car made a sharp turn off the left side of the track. I realized that I would need to improve my data significantly, or else it would be a garbage-in garbage-out scenario. Although I looked at different input options with a toggle (ie. Wii remote) to create smooth steering angles, I found that Udacity had released its own data set with only about 8,000 center frames and corresponding left and right frames for track one.
 
-To prepare the Udacity dataset for processing and training my model, I resized and cropped the images, converted the color channels from RGB to HSV and only kept the S (Saturation) channel, and normalize the pixel values between -.5 and .5. I resized the image to decrease the amount of data that the nueral network would need to process. I cropped the image to reduce irrelavent noise (trees, mountains, clouds, etc.) from the top third of the and focus my model on just the road, with the added benefit of further reducing the amount of data to process. I change the RGB channels to HSV, and keep only the S channel (saturation) to essentially remove the effect of brightness (shadows, road color, etc) in the image. Decreasing 3 channels to 1 for each pixels also cuts down the amount of data to be processed by two-thirds. Finally, I normalize the pixel values between values of -.5 and .5 to remove extremes in the data, which can cause accuracy issues in calculations. 
+To prepare the [Udacity dataset](https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip) for processing and training my model, I resized and cropped the images, converted the color channels from RGB to HSV and only kept the S (Saturation) channel, and normalize the pixel values between -.5 and .5. I resized the image to decrease the amount of data that the nueral network would need to process. I cropped the image to reduce irrelavent noise (trees, mountains, clouds, etc.) from the top third of the image to focus my model on just the road, with the added benefit of further reducing the amount of data to process. I changed the RGB channels to HSV, and keep only the S channel (saturation) to essentially remove the effect of brightness (shadows, road color, etc) in the image. Decreasing 3 channels to 1 for each pixels also cuts down the amount of data to be processed by two-thirds. Finally, I normalize the pixel values between values of -.5 and .5 to remove extremes in the data, which can cause accuracy issues in calculations. 
 
 By doing this we end up with an image transformation that looks like the following:
 
-*image_caption*
+*Image Preprocessing Before and After*
 
 <img src="assets/raw_sample.png" width="425"/> <img src="assets/preprocessed_sample.png" width="425"/> 
 
@@ -16,20 +16,18 @@ The dataset as a whole contained patterns that would train biases into the model
 
 When the car approached the side of the track, I noticed that it slowly tried to correct itself, but much too slowly. Looking through the distribution of steering angles in the data, I found disproportionate amount of zero value steering angles in the dataset. See distribution below.
 
-*image_caption*
+*Unfiltered Steering Angle Distribution*
 
-![Alt text](assets/Distribution_Before.png?raw=true "preprocessed sample")
+![Alt text](assets/Distribution_Before.png?raw=true "Distribution Before")
 
 
 This created another bias in the trained model, where the model was rewarded for steering angles closer to zero value. So although, the model recognizes that it needs to make a sharp left turn, it uses lower values, since zero values generally gave higher prediction accuracies. To fix this, I removed 75% of the zero values so that the distribution looked like this:
 
-*image_caption*
+*Filtered Steering Angle Distribution*
 
+![Alt text](assets/Distribution_After.png?raw=true "Distribution After")
 
-
-![Alt text](assets/Distribution_After.png?raw=true "preprocessed sample")
-
-To further help the model recover the driving path towards the middle as it nears the edge of the road, I intentionally biased the steering angles associated with the images taken from the left and right perspectives of the car. I added an angle of .15 degrees to the steering angle of the left image and subtracted .15 degrees from the steering angle of the right image. This forced a biase toward the center of the road, which allows this car to correct itself as it approaches one side or another.
+To further help the model recover the driving path towards the middle as it nears the edge of the road, I intentionally biased the steering angles associated with the images taken from the left and right perspectives of the car. I added an angle of 20 degrees to the steering angle of the left image and subtracted 20 degrees from the steering angle of the right image. This forced a biase toward the center of the road, which allows this car to correct itself as it approaches one side or another.
 
 In my final steps of preparing the data to train my model, I shuffle the data and split it into 80% training and 20% validation data.
 
@@ -65,4 +63,6 @@ Epoch 5/5
   loss: 0.0297
 ```
 
-Qualitatively, my model's performance in the simulation was able to complete both courses without treading into any dangerours zones. Given a training data set based on only the first simulation track, I felt it was key to achieve safe driving on both tracks to prove that the model is not just overfitting one track. However, since the second track is much more curvy than the first track, I had to bias the model to make turns by adjusting the amount of zero angles filtered and recovery angles, and this causes the car to weave back and forth on straightaways in track 1. I tried dozens of combinations of biases and found that there is a trade off between smooth driving on straightaways and the ability to stay on the road with sharp turns. Unless I use more training data, I had to decide between 'drunk driving' on straightaways with safe turns, or smooth straight driving and perilous turns. I decided to go with the latter, and searched for a balance that would minimize the drunk driving effect on straightaways but also navigate both tracks safely. Obviously I could have added more data to train with, but I felt that using less data was more of a challenge in this project, which I wanted to challenge myself with.
+Qualitatively, my model's performance in the simulation was able to complete both courses without treading into any dangerours zones. Given a training data set based on only the first simulation track, I felt it was key to achieve safe driving on both tracks to prove that the model is not just overfitting one track. However, since the second track is much more curvy than the first track, I had to bias the model to make turns by adjusting the amount of zero angles filtered and recovery angles, and this causes the car to weave back and forth on straightaways in track 1. I tried dozens of combinations of biases and found that there is a trade off between smooth driving on straightaways and the ability to stay on the road with sharp turns. 
+
+Unless I use more training data, I had to decide between 'drunk driving' on straightaways with safe turns, or smooth straight driving and perilous turns. I decided to go with the latter, and searched for a balance that would minimize the drunk driving effect on straightaways but also navigate both tracks safely. Obviously I could have added more data to train with, but I felt that using less data was more of a challenge in this project, which I wanted to challenge myself with.
